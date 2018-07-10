@@ -2,20 +2,31 @@
 Routes and views for the flask application.
 """
 from datetime import datetime
-from flask import render_template, request, jsonify
-from webapp import app, models
+from flask import render_template, request, jsonify, redirect, url_for
+from webapp import app, db
+from webapp.models import Task
+from webapp.forms import TaskForm
 
-
-
-# http://localhost:5555/tasks
-@app.route('/tasks')
-def get_tasks():
-    tasks = [
+tasks = [
         Task('Python', True),
         Task('Flask', True),
         Task('Docker', False)
     ]
-    return ",".join([task.name for task in tasks])
+
+
+# http://localhost:5000/tasks
+@app.route('/tasks')
+def get_tasks():
+    return render_template("tasks.html", tasks=Task.query.all())
+
+@app.route('/tasks/add', methods=['GET', 'POST'])
+def add_task():
+    form = TaskForm(request.form)
+    if "name" in request.form:
+        db.session.add(Task(form.name.data, False))
+        db.session.commit()
+        return redirect(url_for("get_tasks"))
+    return render_template("add_task.html", form=form)
 
 @app.route('/')
 @app.route('/home')

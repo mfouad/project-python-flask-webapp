@@ -12,3 +12,6 @@ if __name__ == '__main__':
     except ValueError:
         PORT = 5000
     app.run(HOST, PORT)
+
+# How run.bat it works?
+# Why docker on windows?

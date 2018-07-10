@@ -1,0 +1,13 @@
+<a href="{{url_for('add_task')}}">+Add Task</a>
+
+<ul>
+{% for task in tasks %}
+
+<li >
+    <input type="checkbox"
+     {{'checked' if task.done else ''}} />
+    {{task.name}}
+
+</li>
+{% endfor %}
+</ul>
