@@ -1,10 +1,21 @@
 """
 Routes and views for the flask application.
 """
-
 from datetime import datetime
-from flask import render_template
-from python_webapp_flask import app
+from flask import render_template, request, jsonify
+from webapp import app, models
+
+
+
+# http://localhost:5555/tasks
+@app.route('/tasks')
+def get_tasks():
+    tasks = [
+        Task('Python', True),
+        Task('Flask', True),
+        Task('Docker', False)
+    ]
+    return ",".join([task.name for task in tasks])
 
 @app.route('/')
 @app.route('/home')
