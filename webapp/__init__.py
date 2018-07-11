@@ -23,4 +23,3 @@ migrate = Migrate(app, db)
 
 import webapp.views
 import webapp.models
-db.create_all()

@@ -1,8 +1,6 @@
 
 env/
 
-python_webapp_flask/__pycache__/
-
-webapp/__pycache__/
+__pycache__/
 
 *.db
