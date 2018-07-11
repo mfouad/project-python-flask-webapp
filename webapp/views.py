@@ -7,13 +7,6 @@ from webapp import app, db
 from webapp.models import Task
 from webapp.forms import TaskForm
 
-tasks = [
-        Task('Python', True),
-        Task('Flask', True),
-        Task('Docker', False)
-    ]
-
-
 # http://localhost:5000/tasks
 @app.route('/tasks')
 def get_tasks():
@@ -23,7 +16,8 @@ def get_tasks():
 def add_task():
     form = TaskForm(request.form)
     if "name" in request.form:
-        db.session.add(Task(form.name.data, False))
+        print (form.deadline.data)
+        db.session.add(Task(form.name.data, False, form.deadline.data))
         db.session.commit()
         return redirect(url_for("get_tasks"))
     return render_template("add_task.html", form=form)

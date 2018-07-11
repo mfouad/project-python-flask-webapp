@@ -6,7 +6,7 @@
 <li >
     <input type="checkbox"
      {{'checked' if task.done else ''}} />
-    {{task.name}}
+    {{task.name}} [{{task.deadline}}]
 
 </li>
 {% endfor %}
