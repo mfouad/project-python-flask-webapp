@@ -4,6 +4,8 @@ import os
 from webapp.models import Task
 import unittest
 import tempfile
+from webapp.views import is_due, is_assigned
+from datetime import *
 
 class TaskTestCase(unittest.TestCase):
 
@@ -33,8 +35,32 @@ class TaskTestCase(unittest.TestCase):
             json_data = rv.get_json()
             assert(json_data)
 
-    def test_due_date(self):
-        assert(1==1)
+    def test_due_today(self):
+        task = Task("test task", False, date.today())
+        assert(is_due(task) == True)
 
+    def test_due_tomorrow(self):
+        task = Task("test task", False, date.today() + timedelta(days=1))
+        assert(is_due(task) == False)
+
+    def test_due_yesterday(self):
+        task = Task("test task", False, date.today() + timedelta(days=-2))
+        assert(is_due(task) == True)
+
+
+    def test_datetime(self):
+        assert((datetime.now() - timedelta(seconds=5)) < datetime.now())
+
+    def test_assignee(self):
+        task = Task("fouad", False, date.today())
+        assert(is_assigned(task, "fouad"))
+
+    def test_assignee_case_insensiteve(self):
+        task = Task("fouad", False, date.today())
+        assert(is_assigned(task, "Fouad"))
+
+        task = Task("FouaD", False, date.today())
+        assert(is_assigned(task, "Fouad"))
+    
 if __name__ == '__main__':
     unittest.main()
