@@ -6,11 +6,23 @@ from flask import render_template, request, jsonify, redirect, url_for
 from webapp import app, db
 from webapp.models import Task
 from webapp.forms import TaskForm
+from datetime import *
+
+def is_assigned(task, assignee):
+    return task.name.lower() == assignee.lower()
+
+def is_due(task):
+    
+    if task.deadline and date.today() < task.deadline:
+        return False
+    return True 
 
 # http://localhost:5000/tasks
 @app.route('/tasks')
 def get_tasks():
-    return render_template("tasks.html", tasks=Task.query.all())
+    tasks = Task.query.all()
+    tasksdue = [(task, is_due(task)) for task in tasks]
+    return render_template("tasks.html", tasksdue=tasksdue)
 
 @app.route('/tasks/add', methods=['GET', 'POST'])
 def add_task():

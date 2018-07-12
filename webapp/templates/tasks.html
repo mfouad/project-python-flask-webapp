@@ -1,12 +1,17 @@
 <a href="{{url_for('add_task')}}">+Add Task</a>
 
 <ul>
-{% for task in tasks %}
+{% for taskdue in tasksdue %}
 
 <li >
     <input type="checkbox"
-     {{'checked' if task.done else ''}} />
-    {{task.name}} [{{task.deadline}}]
+     {{'checked' if taskdue[0].done else ''}} />
+    {% if taskdue[1] %}
+     <span style="color: red">{{taskdue[0].name}}</span>
+    {%else %}
+    {{taskdue[0].name}}
+     {% endif %}
+    [{{taskdue[0].deadline}}]
 
 </li>
 {% endfor %}
