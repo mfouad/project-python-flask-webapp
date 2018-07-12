@@ -10,16 +10,16 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")#'postgresql+psycopg2://postgres:example@localhost/todo'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL", 'postgresql+psycopg2://postgres:example@localhost/todo')
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todo.db'
 
 # initialize the database connection
 
 db = SQLAlchemy(app)
 
-# initialize database migration management
-migrate = Migrate(app, db)
-
 
 import webapp.views
 import webapp.models
+
+# initialize database migration management
+migrate = Migrate(app, db)
